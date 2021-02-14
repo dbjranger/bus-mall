@@ -1,7 +1,11 @@
 'use strict';
 
 const totalItems = [];
-const totalClicks = 0;
+const clicksAllowed = 5; //Change to 25 after testing
+const imageOne = document.querySelector('section image:first-child')
+const imageTwo = document.querySelector('section image:nth-child(2)')
+const imageThree = document.querySelector('section image:nth-child(3)')
+
 
 function AllBusMallItem (name, fileType, timesDisplayed = 0) {
   this.name = name;
@@ -43,4 +47,23 @@ function randomIndexSelector() {
   return randomIndex;
 }
 
-console.log(randomIndexSelector());
+//Generate 3 random items in an array and make sure that they are not the same
+function displayItems () {
+  let firstItem = totalItems[randomIndexSelector()];
+  let secondItem = totalItems[randomIndexSelector()];
+  let thirdItem = totalItems[randomIndexSelector()];
+  let threeTotalItems = []
+  while (firstItem === secondItem || secondItem === thirdItem) {
+    firstItem = totalItems[randomIndexSelector()];
+    secondItem = totalItems[randomIndexSelector()];
+    thirdItem = totalItems[randomIndexSelector()];
+  }
+  for (let i = 0; i < 3; i++) {
+    let comparedItems = firstItem
+  }
+  return comparedItems;
+}
+
+//Append the 3 items to the DOM
+console.log(displayItems())
+
