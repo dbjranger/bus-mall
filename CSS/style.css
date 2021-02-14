@@ -1,0 +1,54 @@
+header div {
+  width: max-content;  
+  display: inline-block;
+  margin-top: 20px;
+  margin-left: 20px;
+} 
+
+h1 {
+  float: right;
+  margin-left: 20px;
+  margin-top: 15px;
+}
+
+header h2 {
+  margin-left: 225px;
+}
+
+main {
+  display: absolute;
+  margin-top: 15px;
+  width: 960px;
+  height: 500px;
+}
+
+main div:first-child {
+  display: inline-block;
+  margin-top: 50px;
+  width: 200px;
+  height: 400px;
+}
+
+main div {
+  width: 200px;
+  margin-left: 15px;
+  margin-top: 50px;
+  height: 200px;
+  float: left;
+}
+
+p {
+  position: absolute;
+  width: 675px;
+  height: 145px;
+  float: left;
+  margin-top: 275px;
+  margin-left: 230px;
+  padding: 15px;
+}
+
+footer {
+  background-color: grey;
+  width: 960px;
+  height: 100px;
+}
