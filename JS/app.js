@@ -76,14 +76,43 @@ function renderItems() {
 
 // render the results to the left side of the screen in list form
 function renderResults() {
-  let myList = document.querySelector('li');
+  let myList = document.querySelector('ul');
   for (let i = 0; i < totalItems.length; i++) {
     let li = document.createElement('li');
-    li.textContent = `${totalItems[i].name} had ${totalItems[i].clicks} votes 
-    (${totalItems[i].percentSelected})`
+    li.textContent = `${totalItems[i].name} had ${totalItems[i].clicks} votes (${totalItems[i].percentSelected})`;
+    myList.appendChild(li)
   }
-
-
 }
 
-  
+// function for event handler
+function handleClick(event) {
+  if (event.target === myContainer) {
+    alert('Not a valid selection.  Please click an image.')
+  }
+
+  totalClicks++;
+  let itemClicked = event.target.title;
+
+  for (let i = 0; i < totalItems.length; i++) {
+    if (itemClicked === totalItems[i].name) {
+      totalItems[i].clicks++;
+    }
+  }
+
+  //render the results once 25 selections have been made and remove event listener
+  renderItems();
+  if (totalClicks === clicksAllowed) {
+    myContainer.removeEventListener('click', handleClick);
+  }
+}
+
+function handleButtonClick(event) {
+  if (totalClicks === clicksAllowed) {
+    renderResults();
+  }
+}
+
+renderItems();
+
+myContainer.addEventListener('click', handleClick);
+myButton.addEventListener('click', handleButtonClick); 
