@@ -3,11 +3,11 @@
 let totalItems = [];
 let clicksAllowed = 5; //Change to 25 after testing
 let totalClicks = 0;
-const imageOne = document.querySelector('section image:first-child');
-const imageTwo = document.querySelector('section image:nth-child(2)');
-const imageThree = document.querySelector('section image:nth-child(3)');
+let imageOne = document.querySelector('section img:first-child');
+let imageTwo = document.querySelector('section img:nth-child(2)');
+let imageThree = document.querySelector('section img:nth-child(3)');
 let myContainer = document.querySelector('section');
-let myButton = document.querySelector('div');
+let myButton = document.querySelector('section div');
 
 function AllBusMallItem (name, fileExtension = 'jpg') {
   this.name = name;
