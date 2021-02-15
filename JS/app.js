@@ -1,69 +1,89 @@
 'use strict';
 
-const totalItems = [];
-const clicksAllowed = 5; //Change to 25 after testing
-const imageOne = document.querySelector('section image:first-child')
-const imageTwo = document.querySelector('section image:nth-child(2)')
-const imageThree = document.querySelector('section image:nth-child(3)')
+let totalItems = [];
+let clicksAllowed = 5; //Change to 25 after testing
+let totalClicks = 0;
+const imageOne = document.querySelector('section image:first-child');
+const imageTwo = document.querySelector('section image:nth-child(2)');
+const imageThree = document.querySelector('section image:nth-child(3)');
+let myContainer = document.querySelector('section');
+let myButton = document.querySelector('div');
 
-
-function AllBusMallItem (name, fileType, timesDisplayed = 0) {
+function AllBusMallItem (name, fileExtension = 'jpg') {
   this.name = name;
-  this.fileType = fileType;
-  this.timesDisplayed = 0;
-  this.src = `${name}.${fileType}`;
-  this.timesClicked = 0;
+  this.src = `img/${name}.${fileExtension}`;
+  this.views = 0;
+  this.clicks = 0;
   this.percentSelected = function () {
-    let percentSelectedFormula = this.timesDisplayed/this.timesClicked + "%" + "chosen";
-    return percentSelectedFormula;
+    return this.views/this.clicks + `% click rate`;
   };  
   totalItems.push(this);
 }
 
-let bag = new AllBusMallItem ('bag', 'jpg');
-let banana = new AllBusMallItem ('banana', 'jpg');
-let bathroom = new AllBusMallItem ('bathroom', 'jpg');
-let boots = new AllBusMallItem ('boots', 'jpg');
-let breakfast = new AllBusMallItem ('breakfast', 'jpg');
-let bubblegum = new AllBusMallItem ('bubblegum', 'jpg');
-let chair = new AllBusMallItem ('chair', 'jpg');
-let cthulhu = new AllBusMallItem ('cthulhu', 'jpg');
-let dogduck = new AllBusMallItem ('dog-duck', 'jpg');
-let dragon = new AllBusMallItem ('dragon', 'jpg');
-let pen = new AllBusMallItem ('pen', 'jpg');
-let petsweep = new AllBusMallItem ('pet-sweep', 'jpg');
-let scissors = new AllBusMallItem ('scissors', 'jpg');
-let shark = new AllBusMallItem ('shark', 'jpg');
+let bag = new AllBusMallItem ('bag');
+let banana = new AllBusMallItem ('banana');
+let bathroom = new AllBusMallItem ('bathroom');
+let boots = new AllBusMallItem ('boots');
+let breakfast = new AllBusMallItem ('breakfast');
+let bubblegum = new AllBusMallItem ('bubblegum');
+let chair = new AllBusMallItem ('chair');
+let cthulhu = new AllBusMallItem ('cthulhu');
+let dogduck = new AllBusMallItem ('dog-duck');
+let dragon = new AllBusMallItem ('dragon');
+let pen = new AllBusMallItem ('pen');
+let petsweep = new AllBusMallItem ('pet-sweep');
+let scissors = new AllBusMallItem ('scissors');
+let shark = new AllBusMallItem ('shark');
 let sweep = new AllBusMallItem ('sweep', 'png');
-let tauntaun = new AllBusMallItem ('tauntaun', 'jpg');
-let unicorn = new AllBusMallItem ('unicorn', 'jpg');
+let tauntaun = new AllBusMallItem ('tauntaun');
+let unicorn = new AllBusMallItem ('unicorn');
 let usb = new AllBusMallItem ('usb', 'gif');
-let watercan = new AllBusMallItem ('water-can', 'jpg');
-let wineglass = new AllBusMallItem ('wine-glass', 'jpg');
+let watercan = new AllBusMallItem ('water-can');
+let wineglass = new AllBusMallItem ('wine-glass');
 
 //generate random index number to display the items
 function randomIndexSelector() {
-  let randomIndex = Math.floor(Math.random() * (totalItems.length));
-  return randomIndex;
+ return Math.floor(Math.random() * (totalItems.length));
 }
 
-//Generate 3 random items in an array and make sure that they are not the same
-function displayItems () {
-  let firstItem = totalItems[randomIndexSelector()];
-  let secondItem = totalItems[randomIndexSelector()];
-  let thirdItem = totalItems[randomIndexSelector()];
-  let threeTotalItems = []
-  while (firstItem === secondItem || secondItem === thirdItem) {
-    firstItem = totalItems[randomIndexSelector()];
-    secondItem = totalItems[randomIndexSelector()];
-    thirdItem = totalItems[randomIndexSelector()];
+// create a render function that will daisy chain everything together
+// so that it can be called in a single function.
+function renderItems() {
+  //generate 3 random index numbers and ensure they are all different
+  let firstItemIndex = randomIndexSelector();
+  let secondItemIndex = randomIndexSelector();
+  let thirdItemIndex = randomIndexSelector();
+  while (firstItemIndex === secondItemIndex) {
+    secondItemIndex = randomIndexSelector();
+  } 
+  while (secondItemIndex === thirdItemIndex) {
+    thirdItemIndex = randomIndexSelector();
   }
-  for (let i = 0; i < 3; i++) {
-    let comparedItems = firstItem
-  }
-  return comparedItems;
+
+  //add src to images, give them a title, track the views
+  imageOne.src = totalItems[firstItemIndex].src;
+  imageOne.title = totalItems[firstItemIndex].name;
+  totalItems[firstItemIndex].views++;
+
+  imageTwo.src = totalItems[secondItemIndex].src;
+  imageTwo.title = totalItems[secondItemIndex].name;
+  totalItems[secondItemIndex].views++;
+
+  imageThree.src = totalItems[thirdItemIndex].src;
+  imageThree.title = totalItems[thirdItemIndex].name;
+  totalItems[thirdItemIndex].views++;
 }
 
-//Append the 3 items to the DOM
-console.log(displayItems())
+// render the results to the left side of the screen in list form
+function renderResults() {
+  let myList = document.querySelector('li');
+  for (let i = 0; i < totalItems.length; i++) {
+    let li = document.createElement('li');
+    li.textContent = `${totalItems[i].name} had ${totalItems[i].clicks} votes 
+    (${totalItems[i].percentSelected})`
+  }
 
+
+}
+
+  
