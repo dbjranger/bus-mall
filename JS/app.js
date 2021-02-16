@@ -86,18 +86,19 @@ function renderResults() {
 
 // function for event handler
 function handleClick(event) {
+  let itemClicked = event.target.title;
+  
   if (event.target === myContainer) {
     alert('Not a valid selection.  Please click an image.')
-  }
-
-  totalClicks++;
-  let itemClicked = event.target.title;
-
-  for (let i = 0; i < totalItems.length; i++) {
-    if (itemClicked === totalItems[i].name) {
-      totalItems[i].clicks++;
+  } else {
+    for (let i = 0; i < totalItems.length; i++) {
+      if (itemClicked === totalItems[i].name) {
+        totalItems[i].clicks++;
+        totalClicks++;
+      }
     }
   }
+
 
   //render the results once 25 selections have been made and remove event listener
   renderItems();
