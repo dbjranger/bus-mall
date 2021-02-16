@@ -14,9 +14,7 @@ function AllBusMallItem (name, fileExtension = 'jpg') {
   this.src = `img/${name}.${fileExtension}`;
   this.views = 0;
   this.clicks = 0;
-  this.percentSelected = function () {
-    return this.views/this.clicks + `% click rate`;
-  };  
+  this.percentSelected = 0; 
   totalItems.push(this);
 }
 
@@ -41,6 +39,7 @@ let usb = new AllBusMallItem ('usb', 'gif');
 let watercan = new AllBusMallItem ('water-can');
 let wineglass = new AllBusMallItem ('wine-glass');
 
+
 //generate random index number to display the items
 function randomIndexSelector() {
  return Math.floor(Math.random() * (totalItems.length));
@@ -57,6 +56,9 @@ function renderItems() {
     secondItemIndex = randomIndexSelector();
   } 
   while (secondItemIndex === thirdItemIndex) {
+    secondItemIndex = randomIndexSelector();
+  }
+  while (firstItemIndex === thirdItemIndex) {
     thirdItemIndex = randomIndexSelector();
   }
 
@@ -64,6 +66,8 @@ function renderItems() {
   imageOne.src = totalItems[firstItemIndex].src;
   imageOne.title = totalItems[firstItemIndex].name;
   totalItems[firstItemIndex].views++;
+  totalItems[firstItemIndex].percentSelected = `${parseInt(totalItems[firstItemIndex].clicks/totalItems[firstItemIndex].views) * 100}%`;
+
 
   imageTwo.src = totalItems[secondItemIndex].src;
   imageTwo.title = totalItems[secondItemIndex].name;
@@ -72,16 +76,6 @@ function renderItems() {
   imageThree.src = totalItems[thirdItemIndex].src;
   imageThree.title = totalItems[thirdItemIndex].name;
   totalItems[thirdItemIndex].views++;
-}
-
-// render the results to the left side of the screen in list form
-function renderResults() {
-  let myList = document.querySelector('ul');
-  for (let i = 0; i < totalItems.length; i++) {
-    let li = document.createElement('li');
-    li.textContent = `${totalItems[i].name} had ${totalItems[i].clicks} votes (${totalItems[i].percentSelected})`;
-    myList.appendChild(li)
-  }
 }
 
 // function for event handler
@@ -95,21 +89,32 @@ function handleClick(event) {
       if (itemClicked === totalItems[i].name) {
         totalItems[i].clicks++;
         totalClicks++;
+        totalItems[i].percentSelected = `${parseInt(totalItems[i].clicks/totalItems[i].views) * 100}%`;
       }
     }
   }
 
+// render the results to the left side of the screen in list form
+function renderResults() {
+  let myList = document.querySelector('ul');
+  for (let i = 0; i < totalItems.length; i++) {
+    let li = document.createElement('li');
+    li.textContent = `${totalItems[i].name} had ${totalItems[i].clicks} votes ${totalItems[i].percentSelected}`;
+    myList.appendChild(li)
+  }
+}
 
   //render the results once 25 selections have been made and remove event listener
   renderItems();
   if (totalClicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleClick);
+    renderResults();
   }
 }
 
 function handleButtonClick(event) {
   if (totalClicks === clicksAllowed) {
-    renderResults();
+    // renderResults();
   }
 }
 
