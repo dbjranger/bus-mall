@@ -7,7 +7,7 @@ let imageOne = document.querySelector('section img:first-child');
 let imageTwo = document.querySelector('section img:nth-child(2)');
 let imageThree = document.querySelector('section img:nth-child(3)');
 let myContainer = document.querySelector('section');
-let myButton = document.querySelector('section div');
+let myButton = document.getElementById('button');
 
 function AllBusMallItem (name, fileExtension = 'jpg') {
   this.name = name;
@@ -45,8 +45,6 @@ function randomIndexSelector() {
  return Math.floor(Math.random() * (totalItems.length));
 }
 
-// create a render function that will daisy chain everything together
-// so that it can be called in a single function.
 function renderItems() {
   //generate 3 random index numbers and ensure they are all different
   let firstItemIndex = randomIndexSelector();
@@ -66,8 +64,6 @@ function renderItems() {
   imageOne.src = totalItems[firstItemIndex].src;
   imageOne.title = totalItems[firstItemIndex].name;
   totalItems[firstItemIndex].views++;
-  totalItems[firstItemIndex].percentSelected = `${parseInt(totalItems[firstItemIndex].clicks/totalItems[firstItemIndex].views) * 100}%`;
-
 
   imageTwo.src = totalItems[secondItemIndex].src;
   imageTwo.title = totalItems[secondItemIndex].name;
@@ -89,7 +85,6 @@ function handleClick(event) {
       if (itemClicked === totalItems[i].name) {
         totalItems[i].clicks++;
         totalClicks++;
-        totalItems[i].percentSelected = `${parseInt(totalItems[i].clicks/totalItems[i].views) * 100}%`;
       }
     }
   }
@@ -99,7 +94,7 @@ function renderResults() {
   let myList = document.querySelector('ul');
   for (let i = 0; i < totalItems.length; i++) {
     let li = document.createElement('li');
-    li.textContent = `${totalItems[i].name} had ${totalItems[i].clicks} votes ${totalItems[i].percentSelected}`;
+    li.textContent = `${totalItems[i].name} had ${totalItems[i].clicks} votes, and was seen ${totalItems[i].views}`;
     myList.appendChild(li)
   }
 }
@@ -114,7 +109,7 @@ function renderResults() {
 
 function handleButtonClick(event) {
   if (totalClicks === clicksAllowed) {
-    // renderResults();
+  renderResults();
   }
 }
 
