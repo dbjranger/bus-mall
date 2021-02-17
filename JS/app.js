@@ -1,8 +1,10 @@
 'use strict';
 
 let totalItems = [];
-let clicksAllowed = 5; //Change to 25 after testing
+let clicksAllowed = 25; 
 let totalClicks = 0;
+let uniqueImageCount = 6;
+let indexArray = [];
 let imageOne = document.querySelector('section img:first-child');
 let imageTwo = document.querySelector('section img:nth-child(2)');
 let imageThree = document.querySelector('section img:nth-child(3)');
@@ -47,18 +49,29 @@ function randomIndexSelector() {
 
 function renderItems() {
   //generate 3 random index numbers and ensure they are all different
-  let firstItemIndex = randomIndexSelector();
-  let secondItemIndex = randomIndexSelector();
-  let thirdItemIndex = randomIndexSelector();
-  while (firstItemIndex === secondItemIndex) {
-    secondItemIndex = randomIndexSelector();
-  } 
-  while (secondItemIndex === thirdItemIndex) {
-    secondItemIndex = randomIndexSelector();
+  while (indexArray.length < uniqueImageCount) {
+    let randomIndex = randomIndexSelector();
+    while (!indexArray.includes(randomIndex)) {
+      indexArray.push(randomIndex)
+    }
   }
-  while (firstItemIndex === thirdItemIndex) {
-    thirdItemIndex = randomIndexSelector();
-  }
+
+  let firstItemIndex = indexArray.shift();
+  let secondItemIndex = indexArray.shift();
+  let thirdItemIndex = indexArray.shift();
+  
+  // let firstItemIndex = randomIndexSelector();
+  // let secondItemIndex = randomIndexSelector();
+  // let thirdItemIndex = randomIndexSelector();
+  // while (firstItemIndex === secondItemIndex) {
+  //   secondItemIndex = randomIndexSelector();
+  // } 
+  // while (secondItemIndex === thirdItemIndex) {
+  //   secondItemIndex = randomIndexSelector();
+  // }
+  // while (firstItemIndex === thirdItemIndex) {
+  //   thirdItemIndex = randomIndexSelector();
+  // }
 
   //add src to images, give them a title, track the views
   imageOne.src = totalItems[firstItemIndex].src;
