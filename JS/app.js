@@ -1,7 +1,7 @@
 'use strict';
 
 let totalItems = [];
-let clicksAllowed = 25; 
+let clicksAllowed = 5; 
 let totalClicks = 0;
 let uniqueImageCount = 6;
 let indexArray = [];
@@ -60,20 +60,6 @@ function renderItems() {
   let secondItemIndex = indexArray.shift();
   let thirdItemIndex = indexArray.shift();
   
-  // let firstItemIndex = randomIndexSelector();
-  // let secondItemIndex = randomIndexSelector();
-  // let thirdItemIndex = randomIndexSelector();
-  // while (firstItemIndex === secondItemIndex) {
-  //   secondItemIndex = randomIndexSelector();
-  // } 
-  // while (secondItemIndex === thirdItemIndex) {
-  //   secondItemIndex = randomIndexSelector();
-  // }
-  // while (firstItemIndex === thirdItemIndex) {
-  //   thirdItemIndex = randomIndexSelector();
-  // }
-
-  //add src to images, give them a title, track the views
   imageOne.src = totalItems[firstItemIndex].src;
   imageOne.title = totalItems[firstItemIndex].name;
   totalItems[firstItemIndex].views++;
@@ -102,6 +88,21 @@ function handleClick(event) {
     }
   }
 
+  //render the results once 25 selections have been made and remove event listener
+  renderItems();
+  if (totalClicks === clicksAllowed) {
+    myContainer.removeEventListener('click', handleClick);
+  }
+}
+
+function handleButtonClick(event) {
+  if (totalClicks === clicksAllowed) {
+  renderResults();
+  renderChart();
+  myButton.removeEventListener('click', handleButtonClick);
+  }
+}
+
 // render the results to the left side of the screen in list form
 function renderResults() {
   let myList = document.querySelector('ul');
@@ -112,21 +113,55 @@ function renderResults() {
   }
 }
 
-  //render the results once 25 selections have been made and remove event listener
-  renderItems();
-  if (totalClicks === clicksAllowed) {
-    myContainer.removeEventListener('click', handleClick);
-    renderResults();
-  }
-}
-
-function handleButtonClick(event) {
-  if (totalClicks === clicksAllowed) {
-  renderResults();
-  }
-}
-
 renderItems();
+
+function renderChart() {
+  let itemNames = [];
+  let itemViews = [];
+  let itemClicks = [];
+  for (let i = 0; i < totalItems.length; i++) {
+    itemNames.push(totalItems[i].name);
+    itemViews.push(totalItems[i].views);
+    itemClicks.push(totalItems[i].clicks);
+  }
+  console.log('itemNames: ', itemNames);
+  console.log('itemViews', itemViews);
+  console.log('itemClicks', itemClicks);
+  var chartObject = {
+    type: 'bar',
+    data: {
+      labels: itemNames,
+      datasets: [{
+        label: 'Views',
+        data: itemViews,
+        backgroundColor: 'rgb(0, 204, 0)',
+        borderColor: 'rgb(0, 51, 0)',
+        borderWidth: 2
+      },
+      {
+        label: 'Clicks',
+        data: itemClicks,
+        backgroundColor: 'rgb(0, 0, 255)',
+        //borderColor: 'rgb(102, 255, 204)',
+        borderWidth: 2
+      }]
+    },
+    responsive: false,
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  };
+
+
+  let ctx = document.getElementById('myChart').getContext('2d');
+  let myChart = new Chart(ctx, chartObject);
+}
 
 myContainer.addEventListener('click', handleClick);
 myButton.addEventListener('click', handleButtonClick); 
