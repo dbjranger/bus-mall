@@ -13,7 +13,7 @@ let myButton = document.getElementById('button');
 
 function AllBusMallItem (name, fileExtension = 'jpg') {
   this.name = name;
-  this.src = `img/${name}.${fileExtension}`;
+  this.src = `./Img/${name}.${fileExtension}`;
   this.views = 0;
   this.clicks = 0;
   this.percentSelected = 0; 
