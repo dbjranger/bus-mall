@@ -1,7 +1,7 @@
 'use strict';
 
 let totalItems = [];
-let clicksAllowed = 5; 
+let clicksAllowed = 25; 
 let totalClicks = 0;
 let uniqueImageCount = 6;
 let indexArray = [];
