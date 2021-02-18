@@ -1,7 +1,7 @@
 'use strict';
 
 let totalItems = [];
-let clicksAllowed = 5;  //change to 25 after complete testing 
+let clicksAllowed = 25;  
 let totalClicks = 0;
 let uniqueImageCount = 6;
 let indexArray = [];
@@ -59,8 +59,7 @@ function renderItems() {
   let firstItemIndex = indexArray.shift();
   let secondItemIndex = indexArray.shift();
   let thirdItemIndex = indexArray.shift();
-
-  //add src to images, give them a title, track the views
+  
   imageOne.src = totalItems[firstItemIndex].src;
   imageOne.title = totalItems[firstItemIndex].name;
   totalItems[firstItemIndex].views++;
@@ -89,10 +88,18 @@ function handleClick(event) {
     }
   }
 
-//Event handler funtion for clicking the results button
+  //render the results once 25 selections have been made and remove event listener
+  renderItems();
+  if (totalClicks === clicksAllowed) {
+    myContainer.removeEventListener('click', handleClick);
+  }
+}
+
 function handleButtonClick(event) {
   if (totalClicks === clicksAllowed) {
   renderResults();
+  renderChart();
+  myButton.removeEventListener('click', handleButtonClick);
   }
 }
 
@@ -105,16 +112,6 @@ function renderResults() {
     myList.appendChild(li)
   }
 }
-
-  //render the results once 25 selections have been made and remove event listener
-  renderItems();
-  if (totalClicks === clicksAllowed) {
-    myContainer.removeEventListener('click', handleClick);
-    renderResults();
-    renderChart();
-  }
-}
-
 
 renderItems();
 
@@ -145,7 +142,6 @@ function renderChart() {
         label: 'Clicks',
         data: itemClicks,
         backgroundColor: 'rgb(0, 0, 255)',
-        //borderColor: 'rgb(102, 255, 204)',
         borderWidth: 2
       }]
     },
