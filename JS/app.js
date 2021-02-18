@@ -1,7 +1,7 @@
 'use strict';
 
 let totalItems = [];
-let clicksAllowed = 25; 
+let clicksAllowed = 5;  //change to 25 after complete testing 
 let totalClicks = 0;
 let uniqueImageCount = 6;
 let indexArray = [];
@@ -59,7 +59,12 @@ function renderItems() {
   let firstItemIndex = indexArray.shift();
   let secondItemIndex = indexArray.shift();
   let thirdItemIndex = indexArray.shift();
+<<<<<<< HEAD
   
+=======
+
+  //add src to images, give them a title, track the views
+>>>>>>> 870c43b7e5560e5390bc798f384c659d4ea401b7
   imageOne.src = totalItems[firstItemIndex].src;
   imageOne.title = totalItems[firstItemIndex].name;
   totalItems[firstItemIndex].views++;
@@ -88,10 +93,31 @@ function handleClick(event) {
     }
   }
 
+<<<<<<< HEAD
+=======
+//Event handler funtion for clicking the results button
+function handleButtonClick(event) {
+  if (totalClicks === clicksAllowed) {
+  renderResults();
+  }
+}
+
+// render the results to the left side of the screen in list form
+function renderResults() {
+  let myList = document.querySelector('ul');
+  for (let i = 0; i < totalItems.length; i++) {
+    let li = document.createElement('li');
+    li.textContent = `${totalItems[i].name} had ${totalItems[i].clicks} votes, and was seen ${totalItems[i].views}`;
+    myList.appendChild(li)
+  }
+}
+
+>>>>>>> 870c43b7e5560e5390bc798f384c659d4ea401b7
   //render the results once 25 selections have been made and remove event listener
   renderItems();
   if (totalClicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleClick);
+<<<<<<< HEAD
   }
 }
 
@@ -112,6 +138,13 @@ function renderResults() {
     myList.appendChild(li)
   }
 }
+=======
+    renderResults();
+    renderChart();
+  }
+}
+
+>>>>>>> 870c43b7e5560e5390bc798f384c659d4ea401b7
 
 renderItems();
 
