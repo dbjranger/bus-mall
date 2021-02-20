@@ -20,26 +20,35 @@ function AllBusMallItem (name, fileExtension = 'jpg') {
   totalItems.push(this);
 }
 
-let bag = new AllBusMallItem ('bag');
-let banana = new AllBusMallItem ('banana');
-let bathroom = new AllBusMallItem ('bathroom');
-let boots = new AllBusMallItem ('boots');
-let breakfast = new AllBusMallItem ('breakfast');
-let bubblegum = new AllBusMallItem ('bubblegum');
-let chair = new AllBusMallItem ('chair');
-let cthulhu = new AllBusMallItem ('cthulhu');
-let dogduck = new AllBusMallItem ('dog-duck');
-let dragon = new AllBusMallItem ('dragon');
-let pen = new AllBusMallItem ('pen');
-let petsweep = new AllBusMallItem ('pet-sweep');
-let scissors = new AllBusMallItem ('scissors');
-let shark = new AllBusMallItem ('shark');
-let sweep = new AllBusMallItem ('sweep', 'png');
-let tauntaun = new AllBusMallItem ('tauntaun');
-let unicorn = new AllBusMallItem ('unicorn');
-let usb = new AllBusMallItem ('usb', 'gif');
-let watercan = new AllBusMallItem ('water-can');
-let wineglass = new AllBusMallItem ('wine-glass');
+// Retrieving From Local Storage
+// 1. get the data from local storage using its key
+let retrievedItems = localStorage.getItem('items');
+
+if(retrievedItems){
+  let parsedItems = JSON.parse(retrievedItems);
+  totalItems = parsedItems;
+} else {
+  new AllBusMallItem ('bag');
+  new AllBusMallItem ('banana');
+  new AllBusMallItem ('bathroom');
+  new AllBusMallItem ('boots');
+  new AllBusMallItem ('breakfast');
+  new AllBusMallItem ('bubblegum');
+  new AllBusMallItem ('chair');
+  new AllBusMallItem ('cthulhu');
+  new AllBusMallItem ('dog-duck');
+  new AllBusMallItem ('dragon');
+  new AllBusMallItem ('pen');
+  new AllBusMallItem ('pet-sweep');
+  new AllBusMallItem ('scissors');
+  new AllBusMallItem ('shark');
+  new AllBusMallItem ('sweep', 'png');
+  new AllBusMallItem ('tauntaun');
+  new AllBusMallItem ('unicorn');
+  new AllBusMallItem ('usb', 'gif');
+  new AllBusMallItem ('water-can');
+  new AllBusMallItem ('wine-glass');
+ }
 
 
 //generate random index number to display the items
@@ -92,6 +101,10 @@ function handleClick(event) {
   renderItems();
   if (totalClicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleClick);
+    //1. Stringify the data
+    let stringifiedItems = JSON.stringify(totalItems);
+    //2. Save to local storage
+    localStorage.setItem('items', stringifiedItems)
   }
 }
 
